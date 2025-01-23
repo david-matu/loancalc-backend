@@ -1,0 +1,46 @@
+spring.application.name: loancalc
+
+springdoc:
+ swagger-ui.path: /openapi/swagger-ui.html
+ api-docs:
+  path: /openapi/v3/api-docs
+  version: "openapi-3-0"
+ packagesToScan: com.david.apis.loancalc
+ pathsToMatch: /**
+# cache.disabled: true
+
+ swagger-ui:
+  oauth2-redirect-url: /swagger-ui/oauth2-redirect.html
+  oauth:
+   clientId: writer
+   clientSecret: secret-writer
+   useBasicAuthenticationWithAccessCodeGrant: true
+ oAuthFlow:
+  authorizationUrl: https://localhost:8443/oauth2/authorize
+  tokenUrl: https://localhost:8443/oauth2/token
+  
+# https://dev-ww47b0brrhicfeqm.us.auth0.com/jwks
+# spring.security.oauth2.resourceserver.jwt.jwk-set-uri: https://dev-ww47b0brrhicfeqm.us.auth0.com/jwks 
+# spring.security.oauth2.resourceserver.jwt.issuer-uri: https://dev-ww47b0brrhicfeqm.us.auth0.com/
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jws-algorithms:
+          - RS256
+          - HS256
+
+
+# Show API health 
+management.endpoint.health.show-details: "ALWAYS"
+management.endpoints.web.exposure.include: "*"
+
+app:
+ username: resilient
+ password: pwd123
+
+
+logging:
+ level:
+  root: INFO
