@@ -19,7 +19,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import reactor.core.publisher.Mono;
 
 @Tag(name = "Loan Calculator Service", description = "This API will handle calculation for loans")
-//@CrossOrigin(origins = {"http://localhost:3000", "https://loancalc-dave.netlify.app"}, allowedHeaders = "*")
+@CrossOrigin
 @RestController
 public class LoanCalcAPI {
 	

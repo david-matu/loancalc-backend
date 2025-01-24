@@ -38,7 +38,7 @@ public class LoanCalcService {
 		// set initial interest amount
 		double totalInterest = 0;
 		
-		System.out.printf("%-6s%-12s%-12s%-12s%-15s%n", "Month", "Payment", "Interest", "Principal", "Balance");
+		//System.out.printf("%-6s%-12s%-12s%-12s%-15s%n", "Month", "Payment", "Interest", "Principal", "Balance");
 		
 		List<LoanPayment> repayments = new ArrayList<>();
 		for(int month = 1; month <= loanPeriodMonths; month++) {
@@ -54,7 +54,7 @@ public class LoanCalcService {
 			
 			//System.out.printf("%-6d%-12.2f%-12.2f%-12.2f%-15.2f%n",
               //      month, monthlyPayment, interestPayment, principalPayment, remainingBalance);
-			System.out.printf("Remaining balance: %-15.2f%n", remainingBalance);
+			// System.out.printf("Remaining balance: %-15.2f%n", remainingBalance);
 		}
 		
 		ArmotizationSchedule sched = new ArmotizationSchedule(loanAmount, interestRate, loanPeriodMonths);

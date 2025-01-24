@@ -1,6 +1,7 @@
 package com.david.apis.loancalc.configs;
 
 import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.GET;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -20,6 +21,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.reactive.CorsWebFilter;
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 import org.springframework.web.reactive.config.CorsRegistry;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
 
@@ -65,10 +69,15 @@ public class SecurityConfig implements WebFluxConfigurer {
 		
 		http
 			.csrf(c -> c.disable())
+			.cors(c -> c.disable())
 			.authorizeExchange((exchanges) ->
             	exchanges
-            	// any URL that starts with /calc/ requires the role "ROLE_USER"
-            	.pathMatchers(POST, "/calc/**").hasRole("USER")
+            		.pathMatchers("/openapi/**").permitAll()
+            		.pathMatchers("/webjars/**").permitAll()
+            		.pathMatchers("/swagger-ui/**").permitAll()
+            		.pathMatchers(OPTIONS).permitAll()
+	            	// any URL that starts with /calc/ requires the role "ROLE_USER"
+	            	.pathMatchers(POST, "/calc/**").hasRole("USER")
             )
 			.httpBasic(withDefaults());
 		
@@ -83,6 +92,21 @@ public class SecurityConfig implements WebFluxConfigurer {
           .maxAge(3600);
     }
 	
+	@Bean
+	CorsWebFilter corsFilter() {
+		CorsConfiguration conf = new CorsConfiguration();
+		
+		conf.setAllowCredentials(true);
+		conf.addAllowedOrigin("http://localhost:3000");
+		conf.addAllowedOrigin("https://loancalc-dave.netlify.app");
+		conf.addAllowedHeader("*");
+		conf.addAllowedMethod("*");
+		
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", conf);
+		
+		return new CorsWebFilter(source);
+	}
 
 	@Bean
 	public MapReactiveUserDetailsService userDetailsService() {
